@@ -17,10 +17,13 @@ pipeline {
         sh 'terraform plan -no-color'
       }
     }
-    state('Validate Apply') {
+    stage('Validate Apply') {
       input {
         message "Do you want to apply this plan?"
         ok "Apply this plan."
+      }
+      steps {
+        echo 'Apply Accepted'
       }
     }
     stage('Apply') {
