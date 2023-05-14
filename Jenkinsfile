@@ -27,7 +27,7 @@ pipeline {
         sh 'aws ec2 wait instance-status-ok --region ap-southeast-1'
       }
     }
-    state('Ansible') {
+    stage('Ansible') {
       steps {
         ansiblePlaybook(credentialsId: 'ec2-ssh-key', inventory: 'aws_hosts', playbook: 'playbooks/main-playbook.yml')
       }
