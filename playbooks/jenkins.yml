@@ -1,0 +1,24 @@
+---
+- name: Install Jenkins
+  hosts: hosts
+  become: yes
+  
+  tasks:
+  - name: Download apt key
+    ansible.builtin.get_url:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+      dest: /usr/share/keyrings/jenkins-keyring.asc
+  - name: Add Jenkins repo to sources.list
+    ansible.builtin.apt_repository:
+      repo: deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/
+      filename: jenkins
+      state: present
+  - name: Update apt cache and install Jenkins
+    ansible.builtin.apt:
+      name: jenkins
+      update_cache: true
+  - name: Ensure Jenkins is started and enabled
+    ansible.builtin.systemd:
+      state: started
+      name: jenkins
+      enabled: true
