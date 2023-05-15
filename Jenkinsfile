@@ -48,11 +48,8 @@ pipeline {
         sh '''aws ec2 wait instance-status-ok \\
               --instance-ids $(terraform output -json instance_ids | jq -r \'.[]\') \\
               --region ap-southeast-1'''
-        /*
-        sh '''aws ec2 wait instance-status-ok \\
-              --instance-ids $(terraform show -json | jq -r \'.values\'.\'root_module\'.\'resources[] | select (.type == "aws_instance")\'.values.id) \\
-              --region ap-southeast-1'''
-        */
+              
+        //    --instance-ids $(terraform show -json | jq -r \'.values\'.\'root_module\'.\'resources[] | select (.type == "aws_instance")\'.values.id) \\
       }
     }
     stage('Validate Ansible') {
